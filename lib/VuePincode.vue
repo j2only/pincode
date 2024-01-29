@@ -1,98 +1,98 @@
 <template>
-  <div
-    class="vue-pincode"
-    :class="pincodeSuccess ? 'vue-pincode--success' : ''"
-  >
     <div
-      class="vue-pincode__fields"
-      :class="pincodeError ? 'vue-pincode__fields--miss' : ''"
+        class="vue-pincode"
+        :class="pincodeSuccess ? 'vue-pincode--success' : ''"
     >
-      <span :class="pincode.length >= 1 ? 'active' : ''" />
-      <span :class="pincode.length >= 2 ? 'active' : ''" />
-      <span :class="pincode.length >= 3 ? 'active' : ''" />
-      <span :class="pincode.length >= 4 ? 'active' : ''" />
+        <div
+            class="vue-pincode__fields"
+            :class="pincodeError ? 'vue-pincode__fields--miss' : ''"
+        >
+            <span :class="pincode.length >= 1 ? 'active' : ''" />
+            <span :class="pincode.length >= 2 ? 'active' : ''" />
+            <span :class="pincode.length >= 3 ? 'active' : ''" />
+            <span :class="pincode.length >= 4 ? 'active' : ''" />
+        </div>
+        <div class="vue-pincode__numbers">
+            <button
+                v-for="(number, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
+                :key="idx"
+                class="shadow"
+                @click="clickPinButton(number)"
+                :disabled="buttonDisabled"
+            >
+                <span>{{ number }}</span>
+            </button>
+            <div />
+            <button @click="clickPinButton(0)" :disabled="buttonDisabled">
+                <span>0</span>
+            </button>
+            <button
+                class="vue-pincode__undo"
+                @click="resetPincode"
+                :disabled="buttonDisabled"
+            >
+                <span>
+                    <undo-icon />
+                </span>
+            </button>
+        </div>
     </div>
-    <div class="vue-pincode__numbers">
-      <button
-        v-for="(number, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
-        :key="idx"
-        class="shadow"
-        @click="clickPinButton(number)"
-        :disabled="buttonDisabled"
-      >
-        <span>{{ number }}</span>
-      </button>
-      <div />
-      <button @click="clickPinButton(0)" :disabled="buttonDisabled">
-        <span>0</span>
-      </button>
-      <button
-        class="vue-pincode__undo"
-        @click="resetPincode"
-        :disabled="buttonDisabled"
-      >
-        <span>
-          <undo-icon />
-        </span>
-      </button>
-    </div>
-  </div>
 </template>
 
-<script>
-import UndoIcon from "./UndoIcon";
+<script lang="ts">
+import UndoIcon from "./components/UndoIcon.vue"
 
 export default {
-  name: "VuePincode",
-  components: { UndoIcon },
-  data() {
-    return {
-      pincode: "",
-      pincodeError: false,
-      pincodeSuccess: false
-    };
-  },
-  computed: {
-    pincodeLength() {
-      return this.pincode.length;
+    name: "VuePincode",
+    components: { UndoIcon },
+    data() {
+        return {
+            pincode: "",
+            pincodeError: false,
+            pincodeSuccess: false
+        }
     },
-    buttonDisabled() {
-      return this.pincodeError || this.pincodeSuccess;
-    }
-  },
-  watch: {
-    pincode() {
-      if (this.pincodeLength === 4) {
-        this.$emit("pincode", this.pincode);
-      }
-    }
-  },
-  destroyed() {
-    this.resetPincode();
-  },
-  methods: {
-    clickPinButton(pressedNumber) {
-      if (this.pincodeLength < 4) {
-        this.pincode = this.pincode + pressedNumber;
-      }
+    computed: {
+        pincodeLength() {
+            return this.pincode.length
+        },
+        buttonDisabled() {
+            return this.pincodeError || this.pincodeSuccess
+        }
     },
-    resetPincode() {
-      this.pincode = "";
-      this.pincodeError = false;
-      this.pincodeSuccess = false;
+    watch: {
+        pincode() {
+            if (this.pincodeLength === 4) {
+                this.$emit("pincode", this.pincode)
+            }
+        }
     },
+    unmounted() {
+        this.resetPincode()
+    },
+    methods: {
+        clickPinButton(pressedNumber: number) {
+            if (this.pincodeLength < 4) {
+                this.pincode = this.pincode + pressedNumber
+            }
+        },
+        resetPincode() {
+            this.pincode = ""
+            this.pincodeError = false
+            this.pincodeSuccess = false
+        },
 
-    triggerMiss() {
-      this.pincodeError = true;
-      setTimeout(() => this.resetPincode(), 800);
-    },
+        triggerMiss() {
+            this.pincodeError = true
+            setTimeout(() => this.resetPincode(), 800)
+        },
 
-    triggerSuccess() {
-      this.pincodeSuccess = true;
-      setTimeout(() => this.resetPincode(), 2500);
+        triggerSuccess() {
+            this.pincodeSuccess = true
+            setTimeout(() => this.resetPincode(), 2500)
+        }
     }
-  }
-};
+}
 </script>
 
 <style scoped lang="scss">

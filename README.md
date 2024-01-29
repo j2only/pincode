@@ -1,27 +1,26 @@
-<div align="center">
-  <img width="200" height="200" src="src/assets/logo.png" alt="@weslink/vue-pincode">
-</div>
-
-### VuePincode
+# VuePincode
 
 ## Features
+
 ### :rocket: [See live demo](https://weslinkde.github.io/vue-pincode/) (Pin: 1234 is the right one)
+
 - Simple pincode input field
 - Neumorphism styling
 - Smooth animations
 
 ## Installation
+
 In your Vue.js project:
 
-```
+```bash
 npm install @weslink/vue-pincode
 ```
 
-###### :speech_balloon: If you prefer static files, import assets from the `dist` folder
+### :speech_balloon: If you prefer static files, import assets from the `dist` folder
 
 ## Basic example
-###### Login.vue
-```Vue
+
+```typescript
 <template>
   <div id="app">
     <div class="container">
@@ -30,7 +29,7 @@ npm install @weslink/vue-pincode
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import axios from 'axios';
 import VuePincode from "./components/VuePincode";
 
@@ -57,16 +56,16 @@ export default {
 
 ## Events
 
-| Event       | Description                                                  |
-| ----------- | ------------------------------------------------------------ |
-| pincode     | Is triggered when the pincode is four characters long and passes it as parameter           |
+| Event   | Description                                                                      |
+| ------- | -------------------------------------------------------------------------------- |
+| pincode | Is triggered when the pincode is four characters long and passes it as parameter |
 
 ## Project development
-- `npm run serve` compiles and hot-reloads demo for development
-- `npm run lint` lints and fixes files
-- `npm run build` compiles and minifies production files and demo
+
+- `yarn dev` compiles and hot-reloads demo for development
+- `yarn lint` lints and fixes files
+- `yarn build` compiles and minifies production files and demo
 
 ## Licensing
-Copyright :copyright: 2020 [Weslink GmbH](https://weslink.de), [MIT License](LICENSE)
 
-Author: Dominik Lenz
+Original author: Dominik Lenz :copyright: 2020 [Weslink GmbH](https://weslink.de), [MIT License](LICENSE)

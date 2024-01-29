@@ -1,48 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <div class="container">
-      <vue-pincode ref="pincodeInput" @pincode="checkPincode" />
+    <div>
+        <a href="https://vitejs.dev" target="_blank">
+            <img src="/vite.svg" class="logo" alt="Vite logo" />
+        </a>
+        <a href="https://vuejs.org/" target="_blank">
+            <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
+        </a>
     </div>
-  </div>
+    <VuePincode ref="pincodeInput" @pincode="checkPincode" />
 </template>
 
-<script>
-import VuePincode from "./components/VuePincode";
+<script setup lang="ts">
+import { ref } from "vue"
+import VuePincode from "../lib/VuePincode.vue"
 
-export default {
-  name: "App",
-  components: {
-    VuePincode
-  },
-  methods: {
-    checkPincode(pincode) {
-      setTimeout(() => {
+const pincodeInput = ref()
+
+function checkPincode(pincode: string) {
+    setTimeout(() => {
         if (pincode === "1234") {
-          this.$refs.pincodeInput.triggerSuccess();
-        } else {
-          this.$refs.pincodeInput.triggerMiss();
+            pincodeInput.value.triggerSuccess()
         }
-      }, 700);
-    }
-  }
-};
+        else {
+            pincodeInput.value.triggerMiss()
+        }
+    }, 700)
+}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-.container {
-  max-width: 320px;
-  margin: auto;
-}
 body {
   background: #e5e5e5;
+}
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
