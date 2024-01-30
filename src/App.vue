@@ -29,9 +29,6 @@ function checkPincode(pincode: string) {
 </script>
 
 <style lang="scss">
-body {
-  background: #e5e5e5;
-}
 .logo {
   height: 6em;
   padding: 1.5em;

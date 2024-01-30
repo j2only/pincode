@@ -1,7 +1,10 @@
 <template>
     <div
         class="vue-pincode"
-        :class="pincodeSuccess ? 'vue-pincode--success' : ''"
+        :class="
+            pincodeSuccess ? 'vue-pincode--success' : ''
+                || pincodeError ? 'vue-pincode--error' : ''
+        "
     >
         <div
             class="vue-pincode__fields"
@@ -84,7 +87,7 @@ export default {
 
         triggerMiss() {
             this.pincodeError = true
-            setTimeout(() => this.resetPincode(), 800)
+            setTimeout(() => this.resetPincode(), 500)
         },
 
         triggerSuccess() {
@@ -97,7 +100,7 @@ export default {
 
 <style scoped lang="scss">
 .vue-pincode {
-  padding: 15px;
+  padding: 1rem;
 
   &__fields {
     display: flex;
@@ -133,7 +136,8 @@ export default {
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
-    row-gap: 20px;
+    row-gap: 1rem;
+    column-gap: 1rem;
 
     button {
       display: flex;
@@ -143,28 +147,17 @@ export default {
       height: 70px;
       border-radius: 50%;
       color: #36485e;
-      background: #e8e8e8;
+      background-color: transparent;
       user-select: none;
       font-size: 24px;
       outline: none;
       cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      border: none;
       transition: all 0.2s linear;
-      box-shadow: 7px 7px 15px #36485e36, -4px -4px 13px #ffffff,
-        inset 4px 4px 8px rgba(209, 217, 230, 0.35),
-        inset -8px -8px 8px rgba(255, 255, 255, 0.3);
-
-      &:hover {
-        box-shadow: 4px 2px 18px #36485e36, -4px -4px 13px #ffffff,
-          inset 6px 6px 16px rgba(209, 217, 230, 0.8),
-          inset -8px -8px 8px rgba(255, 255, 255, 0.2);
-      }
 
       &:active {
-        box-shadow: 4px 2px 18px #36485e36, -4px -4px 13px #ffffff,
-          inset 6px 6px 16px rgba(209, 217, 230, 0.8),
-          inset -8px -8px 8px rgba(255, 255, 255, 0.2);
-        transform: translateY(2px);
+        background-color: #efefef;
+        transform: scale(0.95);
       }
 
       span {
@@ -202,6 +195,15 @@ export default {
     }
   }
 
+  &--error {
+    color: #eb0c0c;
+    .vue-pincode__fields {
+      span {
+        box-shadow: inset 0 0 0 7px #eb0c0c !important;
+      }
+    }
+  }
+
   &__undo {
     span {
       transform: translateY(3px);
@@ -211,11 +213,11 @@ export default {
       width: 32px;
       height: 32px;
       transform: rotate(45deg);
-      transition: transform 0.3s cubic-bezier(0.85, 0, 0.15, 1);
+      transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
       fill: #36485e;
     }
 
-    &:hover {
+    &:active {
       svg {
         transform: rotate(-135deg);
       }
