@@ -1,21 +1,22 @@
 <template>
     <div
         class="vue-pincode"
-        :class="
-            pincodeSuccess ? 'vue-pincode--success' : ''
-                || pincodeError ? 'vue-pincode--error' : ''
-        "
+        :class="{
+            'is-success': pincodeSuccess,
+            'is-error': pincodeError
+        }"
     >
         <div
-            class="vue-pincode__fields"
-            :class="pincodeError ? 'vue-pincode__fields--miss' : ''"
+            class="vue-pincode-fields"
+            :class="{ 'is-miss': pincodeError }"
         >
-            <span :class="pincode.length >= 1 ? 'active' : ''" />
-            <span :class="pincode.length >= 2 ? 'active' : ''" />
-            <span :class="pincode.length >= 3 ? 'active' : ''" />
-            <span :class="pincode.length >= 4 ? 'active' : ''" />
+            <span
+                v-for="idx in setupLength"
+                :key="idx"
+                :class="{ active: pincodeLength >= idx }"
+            />
         </div>
-        <div class="vue-pincode__numbers">
+        <div class="vue-pincode-numbers">
             <button
                 v-for="(number, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
                 :key="idx"
@@ -30,7 +31,7 @@
                 <span>0</span>
             </button>
             <button
-                class="vue-pincode__undo"
+                class="vue-pincode-undo"
                 @click="resetPincode"
                 :disabled="buttonDisabled"
             >
@@ -43,218 +44,217 @@
 </template>
 
 <script lang="ts">
+import { computed, defineComponent, onUnmounted, ref, watch } from "vue"
 import UndoIcon from "./components/UndoIcon.vue"
 
-export default {
+export default defineComponent({
     name: "VuePincode",
     components: { UndoIcon },
-    data() {
+    props: {
+        length: {
+            type: Number,
+            default: 4
+        }
+    },
+    setup(props, { emit }) {
+        const setupLength = computed(() => {
+            if (props.length < 3)
+                return 3
+            else if (props.length > 6)
+                return 6
+            return props.length
+        })
+        const pincode = ref("")
+        const pincodeError = ref(false)
+        const pincodeSuccess = ref(false)
+        const pincodeLength = computed(() => pincode.value.length)
+        const buttonDisabled = computed(() => pincodeError.value || pincodeSuccess.value)
+
+        const clickPinButton = (pressedNumber: number) => {
+            if (pincodeLength.value < setupLength.value)
+                pincode.value += pressedNumber
+        }
+
+        const resetPincode = () => {
+            pincode.value = ""
+            pincodeError.value = false
+            pincodeSuccess.value = false
+        }
+
+        const triggerMiss = () => {
+            pincodeError.value = true
+            setTimeout(resetPincode, 500)
+        }
+
+        const triggerSuccess = () => {
+            pincodeSuccess.value = true
+            setTimeout(resetPincode, 2500)
+        }
+
+        watch(pincode, () => {
+            if (pincodeLength.value === setupLength.value) {
+                // Emit the pincode event
+                emit("pincode", pincode.value)
+                // this.$emit('pincode', pincode.value)
+            }
+        })
+
+        onUnmounted(resetPincode)
+
         return {
-            pincode: "",
-            pincodeError: false,
-            pincodeSuccess: false
-        }
-    },
-    computed: {
-        pincodeLength() {
-            return this.pincode.length
-        },
-        buttonDisabled() {
-            return this.pincodeError || this.pincodeSuccess
-        }
-    },
-    watch: {
-        pincode() {
-            if (this.pincodeLength === 4) {
-                this.$emit("pincode", this.pincode)
-            }
-        }
-    },
-    unmounted() {
-        this.resetPincode()
-    },
-    methods: {
-        clickPinButton(pressedNumber: number) {
-            if (this.pincodeLength < 4) {
-                this.pincode = this.pincode + pressedNumber
-            }
-        },
-        resetPincode() {
-            this.pincode = ""
-            this.pincodeError = false
-            this.pincodeSuccess = false
-        },
-
-        triggerMiss() {
-            this.pincodeError = true
-            setTimeout(() => this.resetPincode(), 500)
-        },
-
-        triggerSuccess() {
-            this.pincodeSuccess = true
-            setTimeout(() => this.resetPincode(), 2500)
+            pincode,
+            pincodeError,
+            pincodeSuccess,
+            setupLength,
+            pincodeLength,
+            buttonDisabled,
+            clickPinButton,
+            resetPincode,
+            triggerMiss,
+            triggerSuccess
         }
     }
-}
+})
 </script>
 
 <style scoped lang="scss">
 .vue-pincode {
-  padding: 1rem;
-
-  &__fields {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 200px;
-    padding: 0 20px;
-    margin: 20px auto 50px;
-
-    &--miss {
-      animation: miss 0.8s ease-out 1;
-    }
-
-    span {
-      height: 14px;
-      width: 14px;
-      box-shadow: inset 0 0 0 2px #36485e;
-      background-color: transparent;
-      border-radius: 100%;
-      position: relative;
-      display: inline-block;
-      text-align: center;
-      transition: box-shadow 0.2s linear;
-
-      &.active {
-        box-shadow: inset 0 0 0 7px #36485e;
-      }
-    }
-  }
-
-  &__numbers {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center;
-    align-items: center;
-    row-gap: 1rem;
-    column-gap: 1rem;
-
-    button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      color: #36485e;
-      background-color: transparent;
-      user-select: none;
-      font-size: 24px;
-      outline: none;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s linear;
-
-      &:active {
-        background-color: #efefef;
-        transform: scale(0.95);
-      }
-
-      span {
-        opacity: 1;
-        transition: all 0.2s linear;
-      }
-    }
-  }
-
-  &--success {
-    .vue-pincode__numbers {
-      button {
-        box-shadow: 0 0 0 #bbcfda, 0 0 0 #ffffff,
-          inset 0 0 0 rgba(209, 217, 230, 0.35),
-          inset 0 0 0 rgba(255, 255, 255, 0.3);
-        transform: translateY(2px);
-        color: #36485e52;
-
-        span {
-          opacity: 0.4;
+    padding: 1rem;
+    .vue-pincode-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 200px;
+        padding: 0 20px;
+        margin: 20px auto 50px;
+        &.is-miss {
+            animation: miss 0.8s ease-out 1;
         }
-      }
+        span {
+            height: 14px;
+            width: 14px;
+            box-shadow: inset 0 0 0 2px #36485e;
+            background-color: transparent;
+            border-radius: 100%;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            transition: box-shadow 0.2s linear;
+            &.active {
+                box-shadow: inset 0 0 0 7px #36485e;
+            }
+        }
     }
-
-    .vue-pincode__fields {
-      span {
-        box-shadow: inset 0 0 0 7px #41b883;
-      }
+    .vue-pincode-numbers {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        place-items: center center;
+        gap: 1rem 1rem;
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            color: #36485e;
+            background-color: transparent;
+            user-select: none;
+            font-size: 24px;
+            outline: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s linear;
+            &:active {
+                background-color: #efefef;
+                transform: scale(0.95);
+            }
+            span {
+                opacity: 1;
+                transition: all 0.2s linear;
+            }
+        }
     }
-
-    .vue-pincode__undo {
-      svg {
-        fill: #36485e52;
-      }
+    .vue-pincode-undo {
+        &:active {
+            svg {
+                transform: rotate(-135deg);
+            }
+        }
+        span {
+            transform: translateY(3px);
+        }
+        svg {
+            width: 32px;
+            height: 32px;
+            transform: rotate(45deg);
+            transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
+            fill: #36485e;
+        }
     }
-  }
-
-  &--error {
-    color: #eb0c0c;
-    .vue-pincode__fields {
-      span {
-        box-shadow: inset 0 0 0 7px #eb0c0c !important;
-      }
+    &.is-success {
+        .vue-pincode-numbers {
+            button {
+                box-shadow: 0 0 0 #bbcfda, 0 0 0 #fff,
+                    inset 0 0 0 rgb(209 217 230 / 35%),
+                    inset 0 0 0 rgb(255 255 255 / 30%);
+                transform: translateY(2px);
+                color: #36485e52;
+                span {
+                    opacity: 0.4;
+                }
+            }
+        }
+        .vue-pincode-fields {
+            span {
+                box-shadow: inset 0 0 0 7px #41b883;
+            }
+        }
+        .vue-pincode-undo {
+            svg {
+                fill: #36485e52;
+            }
+        }
     }
-  }
-
-  &__undo {
-    span {
-      transform: translateY(3px);
+    &.is-error {
+        color: #eb0c0c;
+        .vue-pincode-fields {
+            span {
+                box-shadow: inset 0 0 0 7px #eb0c0c !important;
+            }
+        }
     }
-
-    svg {
-      width: 32px;
-      height: 32px;
-      transform: rotate(45deg);
-      transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
-      fill: #36485e;
-    }
-
-    &:active {
-      svg {
-        transform: rotate(-135deg);
-      }
-    }
-  }
 }
-
 @keyframes miss {
-  0% {
-    transform: translate(0, 0);
-  }
-  10% {
-    transform: translate(-25px, 0);
-  }
-  20% {
-    transform: translate(25px, 0);
-  }
-  30% {
-    transform: translate(-20px, 0);
-  }
-  40% {
-    transform: translate(20px, 0);
-  }
-  50% {
-    transform: translate(-10px, 0);
-  }
-  60% {
-    transform: translate(10px, 0);
-  }
-  70% {
-    transform: translate(-5px, 0);
-  }
-  80% {
-    transform: translate(5px, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
+    0% {
+        transform: translate(0, 0);
+    }
+    10% {
+        transform: translate(-25px, 0);
+    }
+    20% {
+        transform: translate(25px, 0);
+    }
+    30% {
+        transform: translate(-20px, 0);
+    }
+    40% {
+        transform: translate(20px, 0);
+    }
+    50% {
+        transform: translate(-10px, 0);
+    }
+    60% {
+        transform: translate(10px, 0);
+    }
+    70% {
+        transform: translate(-5px, 0);
+    }
+    80% {
+        transform: translate(5px, 0);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
 }
 </style>
