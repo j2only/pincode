@@ -1,64 +1,94 @@
-# VuePincode
+# vue-pincode
 
-## Features
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/joseph2/vue-slide-unlock/issues)
 
-### :rocket: [See live demo](https://weslinkde.github.io/vue-pincode/) (Pin: 1234 is the right one)
+Vue.js pincode input component. :lock:
+Written entirely on Vue 3 Composition API with Typescript and Vite. Compatible only with Vue.js 3.x.
 
 - Simple pincode input field
-- Neumorphism styling
+- Minimal style
+- Customizable
 - Smooth animations
+
+You can check a [DEMO HERE](https://joseph2.github.io/vue-pincode/)
 
 ## Installation
 
-In your Vue.js project:
+Install this component via package manager:
 
 ```bash
-npm install @weslink/vue-pincode
+yarn add @weslink/vue-pincode
 ```
 
-### :speech_balloon: If you prefer static files, import assets from the `dist` folder
+## Usage
 
-## Basic example
+Import the component in your app and pass some settings:
 
 ```typescript
 <template>
-  <div id="app">
-    <div class="container">
-      <vue-pincode ref="pincodeInput" @pincode="login" />
-    </div>
-  </div>
+    <VuePincode
+        name="pincode"
+        ref="pincodeInput"
+        :length="4"
+        :releaseSuccess="true"
+        :releaseSuccessDelay="2500"
+        :releaseErrorDelay="500"
+        :customButton="true"
+        @clickButton="cButtonFn"
+        @pincode="checkPincode"
+    />
 </template>
 
-<script lang="ts">
-import axios from 'axios';
+<script setup lang="ts">
 import VuePincode from "./components/VuePincode";
 
-export default {
-  name: "Login",
-  components: {
-    VuePincode
-  },
-  methods: {
-    async login(pincode) {
-      try {
-        const { data } = await axios.post(`/login`, { pincode })
-        this.$refs.pincodeInput.triggerSuccess();
-        return { success: true, status: data.status }
-      } catch (e) {
-        this.$refs.pincodeInput.triggerMiss();
-        return { success: false, status: e.response.data.status }
-      }
-    },
-  }
-};
+const pincodeInput = ref()
+const cButtonFn = ref(() => alert("the custom button clicked!"))
+const answer = "1234"
+
+
+function checkPincode(pincode: string) {
+    setTimeout(() => {
+        if (pincode === answer)
+            pincodeInput.value.triggerSuccess()
+        else
+            pincodeInput.value.triggerMiss()
+    }, 300)
+}
 </script>
 ```
 
+## Props
+
+As you can see, the component accepts some props:
+
+| Prop                | Type    | Default   | Description                                                          |
+| ------------------- | ------- | --------- | -------------------------------------------------------------------- |
+| name                | String  | "pincode" | Unique ID, in case of using several components on one page           |
+| length              | Number  | 4         | Required pincode length, minimum 2, maximum 8                        |
+| releaseSuccess      | Boolean | true      | Reset state after delay when entered pincode is correct              |
+| releaseSuccessDelay | Number  | 2500      | Delay to reset state after entered pincode is correct (milliseconds) |
+| releaseErrorDelay   | Number  | 500       | Delay to reset state after entered pincode is invalid (milliseconds) |
+| customButton        | Boolean | false     | Show custom button                                                   |
+
+## CSS Variables
+
+Also, you can customize some styles via CSS Variables:
+
+| Variable                 | Default | Description                             |
+| ------------------------ | ------- | --------------------------------------- |
+| --pc-color-button        | #000000 | Color of digits                         |
+| --pc-color-field-normal  | #234567 | Color of fields                         |
+| --pc-color-field-success | #42b983 | Color of fields when pincode is correct |
+| --pc-color-field-error   | #eb0c0c | Color of fields when pincode is invalid |
+| --pc-custom-button-icon  | base64  | Custom button icon                      |
+
 ## Events
 
-| Event   | Description                                                                      |
-| ------- | -------------------------------------------------------------------------------- |
-| pincode | Is triggered when the pincode is four characters long and passes it as parameter |
+| Event       | Description                                                          |
+| ----------- | -------------------------------------------------------------------- |
+| pincode     | Is triggered when the entered pincode length is equal to length prop |
+| clickButton | Is triggered when the custom button is pressed                       |
 
 ## Project development
 
