@@ -15,6 +15,10 @@ jobs:
         with:
           node-version: 18.x
 
+      - name: Enable Corepack for Yarn 4
+        run: |
+          corepack enable
+
       - name: Install 💻
         uses: borales/actions-yarn@v4
         with:
