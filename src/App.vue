@@ -22,7 +22,7 @@ function checkPincode(pincode: string) {
             pincodeInput.value.triggerSuccess()
         else
             pincodeInput.value.triggerMiss()
-    }, 700)
+    }, 300)
 }
 </script>
 

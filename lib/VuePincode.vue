@@ -8,7 +8,10 @@
     >
         <div
             class="vue-pincode-fields"
-            :class="{ 'is-miss': pincodeError }"
+            :class="{
+                'is-success': pincodeSuccess,
+                'is-miss': pincodeError
+            }"
         >
             <span
                 v-for="idx in setupLength"
@@ -119,6 +122,10 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .vue-pincode {
+    --pc-color-button: #36485e;
+    --pc-color-field-normal: #36485e;
+    --pc-color-field-success: #42B983;
+    --pc-color-field-error: #eb0c0c;
     padding: 1rem;
     .vue-pincode-fields {
         display: flex;
@@ -127,13 +134,11 @@ export default defineComponent({
         max-width: 200px;
         padding: 0 20px;
         margin: 20px auto 50px;
-        &.is-miss {
-            animation: miss 0.8s ease-out 1;
-        }
+
         span {
-            height: 14px;
-            width: 14px;
-            box-shadow: inset 0 0 0 2px #36485e;
+            height: 0.875rem;
+            width: 0.875rem;
+            box-shadow: inset 0 0 0 2px var(--pc-color-field-normal);
             background-color: transparent;
             border-radius: 100%;
             position: relative;
@@ -141,7 +146,18 @@ export default defineComponent({
             text-align: center;
             transition: box-shadow 0.2s linear;
             &.active {
-                box-shadow: inset 0 0 0 7px #36485e;
+                animation: scale 0.3s ease-out 1;
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-normal);
+            }
+
+        }
+        &.is-miss {
+            animation: miss 0.8s ease-out 1;
+        }
+        &.is-success {
+            span {
+                animation: scale 1s ease-in-out infinite;
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-success);
             }
         }
     }
@@ -154,13 +170,13 @@ export default defineComponent({
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 70px;
-            height: 70px;
+            width: 4.5rem;
+            height: 4.5rem;
             border-radius: 50%;
-            color: #36485e;
+            color: var(--pc-color-button);
             background-color: transparent;
             user-select: none;
-            font-size: 24px;
+            font-size: 1.5rem;
             outline: none;
             cursor: pointer;
             border: none;
@@ -189,7 +205,7 @@ export default defineComponent({
             height: 32px;
             transform: rotate(45deg);
             transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
-            fill: #36485e;
+            fill: var(--pc-color-button);
         }
     }
     &.is-success {
@@ -205,11 +221,6 @@ export default defineComponent({
                 }
             }
         }
-        .vue-pincode-fields {
-            span {
-                box-shadow: inset 0 0 0 7px #41b883;
-            }
-        }
         .vue-pincode-undo {
             svg {
                 fill: #36485e52;
@@ -217,14 +228,26 @@ export default defineComponent({
         }
     }
     &.is-error {
-        color: #eb0c0c;
+        color: var(--pc-color-field-error);
         .vue-pincode-fields {
             span {
-                box-shadow: inset 0 0 0 7px #eb0c0c !important;
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-error) !important;
             }
         }
     }
 }
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 @keyframes miss {
     0% {
         transform: translate(0, 0);
