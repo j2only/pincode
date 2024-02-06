@@ -31,7 +31,7 @@
                 <span>{{ number }}</span>
             </button>
             <template v-if="customButton">
-                <button @click="customButtonFn()">
+                <button @click="$emit('clickButton')">
                     <span class="is-custom" />
                 </button>
             </template>
@@ -62,21 +62,29 @@ export default defineComponent({
     name: "VuePincode",
     components: { UndoIcon },
     props: {
-        length: {
-            type: Number,
-            default: 4
-        },
         name: {
             type: String,
             default: "pincode"
+        },
+        length: {
+            type: Number,
+            default: 4
         },
         customButton: {
             type: Boolean,
             default: false
         },
-        customButtonFn: {
-            type: Function,
-            default: () => {}
+        releaseSuccess: {
+            type: Boolean,
+            default: true
+        },
+        releaseSuccessDelay: {
+            type: Number,
+            default: 2500
+        },
+        releaseErrorDelay: {
+            type: Number,
+            default: 500
         }
     },
     setup(props, { emit }) {
@@ -106,19 +114,19 @@ export default defineComponent({
 
         const triggerMiss = () => {
             pincodeError.value = true
-            setTimeout(resetPincode, 500)
+            setTimeout(resetPincode, props.releaseErrorDelay)
         }
 
         const triggerSuccess = () => {
             pincodeSuccess.value = true
-            setTimeout(resetPincode, 2500)
+            if (props.releaseSuccess)
+                setTimeout(resetPincode, props.releaseSuccessDelay)
         }
 
         watch(pincode, () => {
             if (pincodeLength.value === setupLength.value) {
                 // Emit the pincode event
                 emit("pincode", pincode.value)
-                // this.$emit('pincode', pincode.value)
             }
         })
 
@@ -143,10 +151,10 @@ export default defineComponent({
 <style scoped lang="scss">
 .vue-pincode {
     --pc-color-button: #000000;
-    --pc-color-field-normal: #36485e;
+    --pc-color-field-normal: #234369;
     --pc-color-field-success: #42B983;
     --pc-color-field-error: #eb0c0c;
-    --pc-custom-button-icon: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256' enable-background='new 0 0 256 256' xml:space='preserve'%3E%3Cmetadata%3E Svg Vector Icons : http://www.onlinewebfonts.com/icon %3C/metadata%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath fill='%23000000' d='M123.7,10.3c-7,1-12.8,4.7-16.8,10.7c-2.3,3.5-3,7.4-1.7,9.3c2.4,3.6,8,2.8,9.6-1.3c1.3-3.2,5.7-6.8,9.6-7.8c7.3-2,15.1,2.5,17.4,10.2c1.3,4.2,0.1,9.2-2.1,8.9c-4.4-0.6-21.1-0.2-25.2,0.6c-30.3,6.1-53,27.7-61,57.9c-1,4-1.3,11.1-1.7,36.2l-0.6,31.2l-5.3,20.7c-6.3,24.7-6.4,25.7-2.4,27.8c2.2,1.1,165.8,1.3,168.9,0.1c4.1-1.6,4-3.1-2.1-26.7l-5.8-21.9l-0.4-31.6c-0.5-29.1-0.6-32.1-2.2-37.8c-4.7-17.3-16.4-33.8-30.3-43.3c-5.1-3.4-16.9-9.4-18.6-9.4c-0.9,0-0.9-0.7-0.5-3C156.3,22.9,142,7.6,123.7,10.3z M143.3,52.5c7.2,1.7,20,8.1,25.9,13c10.7,8.8,19,22,22.3,35.6c1.4,6.1,1.6,9.4,1.6,35.2l0.1,28.4l5,19.9l5.1,20h-75c-66.7,0-75-0.2-75-1.2c0-0.7,2.1-9.6,4.7-19.8l4.7-18.5v-27.7c0-20.5,0.3-29.1,1.1-33.4c5.3-27.6,27.1-48.4,55.4-52.8C125.2,50.4,136.7,50.9,143.3,52.5z'/%3E%3Cpath fill='%23000000' d='M98.7,221.3c-1.8,2.5-1.6,4.4,1.1,9c3,5.2,8.6,10.2,15,13.3c4.8,2.3,5.8,2.4,13.8,2.4c8.1,0,9-0.2,13.9-2.4c8.2-4,15.9-11.9,17-17.6c0.7-3.6-1.3-6.4-4.8-6.4c-2.7,0-5.9,2.2-5.9,4s-7,8.2-10.7,10c-2.9,1.4-5.4,1.9-9.5,1.9c-4.1,0-6.6-0.5-9.5-1.9c-3.7-1.7-10.7-8.2-10.7-10c0-0.4-0.7-1.5-1.6-2.4C104.7,218.9,100.3,219,98.7,221.3z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    --pc-custom-button-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='80px' height='80px' viewBox='0 0 80 80' version='1.1'%3E%3C!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch --%3E%3Ctitle%3EFace ID%3C/title%3E%3Cdesc%3ECreated with Sketch.%3C/desc%3E%3Cdefs/%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Face-ID' fill='%23000000'%3E%3Cg%3E%3Cg%3E%3Cg id='Corners' fill-rule='nonzero'%3E%3Cg id='Corner'%3E%3Cpath d='M4.11428571,21.9428571 L4.11428571,13.0285714 C4.11428571,7.99327149 7.99327149,4.11428571 13.0285714,4.11428571 L21.9428571,4.11428571 C23.0789858,4.11428571 24,3.19327149 24,2.05714286 C24,0.921014229 23.0789858,0 21.9428571,0 L13.0285714,0 C5.72101423,0 0,5.72101423 0,13.0285714 L0,21.9428571 C0,23.0789858 0.921014229,24 2.05714286,24 C3.19327149,24 4.11428571,23.0789858 4.11428571,21.9428571 Z'/%3E%3C/g%3E%3Cg id='Corner' transform='translate(68.070175, 11.929825) scale(-1, 1) translate(-68.070175, -11.929825) translate(56.140351, 0.000000)'%3E%3Cpath d='M4.11428571,21.9428571 L4.11428571,13.0285714 C4.11428571,7.99327149 7.99327149,4.11428571 13.0285714,4.11428571 L21.9428571,4.11428571 C23.0789858,4.11428571 24,3.19327149 24,2.05714286 C24,0.921014229 23.0789858,0 21.9428571,0 L13.0285714,0 C5.72101423,0 0,5.72101423 0,13.0285714 L0,21.9428571 C0,23.0789858 0.921014229,24 2.05714286,24 C3.19327149,24 4.11428571,23.0789858 4.11428571,21.9428571 Z'/%3E%3C/g%3E%3Cg id='Corner' transform='translate(11.929825, 68.070175) scale(1, -1) translate(-11.929825, -68.070175) translate(0.000000, 56.140351)'%3E%3Cpath d='M4.11428571,21.9428571 L4.11428571,13.0285714 C4.11428571,7.99327149 7.99327149,4.11428571 13.0285714,4.11428571 L21.9428571,4.11428571 C23.0789858,4.11428571 24,3.19327149 24,2.05714286 C24,0.921014229 23.0789858,0 21.9428571,0 L13.0285714,0 C5.72101423,0 0,5.72101423 0,13.0285714 L0,21.9428571 C0,23.0789858 0.921014229,24 2.05714286,24 C3.19327149,24 4.11428571,23.0789858 4.11428571,21.9428571 Z'/%3E%3C/g%3E%3Cg id='Corner' transform='translate(68.070175, 68.070175) scale(-1, -1) translate(-68.070175, -68.070175) translate(56.140351, 56.140351)'%3E%3Cpath d='M4.11428571,21.9428571 L4.11428571,13.0285714 C4.11428571,7.99327149 7.99327149,4.11428571 13.0285714,4.11428571 L21.9428571,4.11428571 C23.0789858,4.11428571 24,3.19327149 24,2.05714286 C24,0.921014229 23.0789858,0 21.9428571,0 L13.0285714,0 C5.72101423,0 0,5.72101423 0,13.0285714 L0,21.9428571 C0,23.0789858 0.921014229,24 2.05714286,24 C3.19327149,24 4.11428571,23.0789858 4.11428571,21.9428571 Z'/%3E%3C/g%3E%3C/g%3E%3Cg id='Eye' transform='translate(21.754386, 28.070175)' fill-rule='nonzero'%3E%3Cpath d='M0,2.14285714 L0,7.86037654 C0,9.04384386 0.8954305,10.0032337 2,10.0032337 C3.1045695,10.0032337 4,9.04384386 4,7.86037654 L4,2.14285714 C4,0.959389822 3.1045695,0 2,0 C0.8954305,0 0,0.959389822 0,2.14285714 Z' id='Path'/%3E%3C/g%3E%3Cg id='Eye' transform='translate(54.736842, 28.070175)' fill-rule='nonzero'%3E%3Cpath d='M0,2.14285714 L0,7.86037654 C0,9.04384386 0.8954305,10.0032337 2,10.0032337 C3.1045695,10.0032337 4,9.04384386 4,7.86037654 L4,2.14285714 C4,0.959389822 3.1045695,0 2,0 C0.8954305,0 0,0.959389822 0,2.14285714 Z' id='Path'/%3E%3C/g%3E%3Cpath d='M25.9319616,59.0829234 C29.8331111,62.7239962 34.5578726,64.5614035 40,64.5614035 C45.4421274,64.5614035 50.1668889,62.7239962 54.0680384,59.0829234 C54.9180398,58.2895887 54.9639773,56.9574016 54.1706427,56.1074002 C53.377308,55.2573988 52.0451209,55.2114613 51.1951195,56.0047959 C48.0787251,58.9134307 44.382434,60.3508772 40,60.3508772 C35.617566,60.3508772 31.9212749,58.9134307 28.8048805,56.0047959 C27.9548791,55.2114613 26.622692,55.2573988 25.8293573,56.1074002 C25.0360227,56.9574016 25.0819602,58.2895887 25.9319616,59.0829234 Z' id='Mouth' fill-rule='nonzero'/%3E%3Cpath d='M40,30.1754386 L40,44.9122807 C40,45.85537 39.539042,46.3157895 38.5912711,46.3157895 L37.1929825,46.3157895 C36.0302777,46.3157895 35.0877193,47.2583479 35.0877193,48.4210526 C35.0877193,49.5837574 36.0302777,50.5263158 37.1929825,50.5263158 L38.5912711,50.5263158 C41.8633505,50.5263158 44.2105263,48.1818819 44.2105263,44.9122807 L44.2105263,30.1754386 C44.2105263,29.0127339 43.2679679,28.0701754 42.1052632,28.0701754 C40.9425584,28.0701754 40,29.0127339 40,30.1754386 Z' id='Nose' fill-rule='nonzero'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3Cscript xmlns='' id='bw-fido2-page-script'/%3E%3C/svg%3E");
     padding: 1rem;
     .vue-pincode-fields {
         display: flex;
@@ -177,7 +185,7 @@ export default defineComponent({
         }
         &.is-success {
             span {
-                animation: scale 1s ease-in-out infinite;
+                animation: scale 1.5s ease-in-out infinite;
                 box-shadow: inset 0 0 0 7px var(--pc-color-field-success);
             }
         }
@@ -211,8 +219,9 @@ export default defineComponent({
                 transition: all 0.2s linear;
                 &.is-custom {
                     background: transparent var(--pc-custom-button-icon) no-repeat center;
-                    width: 2.5rem;
+                    width: 2rem;
                     height: 100%;
+                    background-size: contain;
                 }
             }
         }
@@ -227,8 +236,8 @@ export default defineComponent({
             transform: translateY(3px);
         }
         svg {
-            width: 32px;
-            height: 32px;
+            width: 1.75rem;
+            height: 1.75rem;
             transform: rotate(45deg);
             transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
             fill: var(--pc-color-button);
@@ -244,6 +253,9 @@ export default defineComponent({
                 color: #36485e52;
                 span {
                     opacity: 0.4;
+                    &.is-custom {
+                        opacity: 0.1;
+                    }
                 }
             }
         }

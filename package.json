@@ -1,6 +1,6 @@
 {
     "name": "@joseph2/vue-pincode",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "type": "module",
     "description": "Neumorphism styled pincode input field for Vue.js 3 + Vite + Typescript",
     "author": {

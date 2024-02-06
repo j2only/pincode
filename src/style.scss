@@ -4,14 +4,10 @@
     --color-lightgray: #EAEAEA;
     --color-mediumgray: #C1C6C7;
     --color-gray: #8F989A;
-    --color-text: #5A6265;
+    --color-text: #414d63;
     --color-theme: #42B983;
 
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-synthesis: none;
-    text-rendering: optimizelegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
 }
 
 html,
@@ -273,7 +269,8 @@ footer {
 }
 
 .demo-section {
-    margin: 4rem 0;
+    width: 20rem;
+    margin: 3rem auto;
 }
 
 .actions-section {

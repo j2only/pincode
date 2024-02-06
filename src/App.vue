@@ -29,27 +29,36 @@
                 <div class="description">
                     <b>Simple usage, customizable, smooth animations</b>
                     <p>
-                        <em>Answer is: 12345678</em>
+                        <em>Answer is: 12345678 (depends on length)</em>
                     </p>
                 </div>
             </section>
             <section class="demo-section">
                 <VuePincode
-                    :length="length"
                     name="pincode"
-                    :customButton="cButton"
-                    :customButtonFn="cButtonFn"
                     ref="pincodeInput"
+                    :length="length"
+                    :releaseSuccess="rSuccess"
+                    :releaseSuccessDelay="rSuccessDelay"
+                    :releaseErrorDelay="rErrorDelay"
+                    :customButton="cButton"
+                    @clickButton="cButtonFn"
                     @pincode="checkPincode"
                     @vue:mounted="handleMounted"
                 />
             </section>
             <section class="size-section">
-                <h2>Options (props)</h2>
-                <div class="grid">
+                <h2>Props</h2>
+                <div class="grid is-4">
                     <div class="item">
-                        <label>length (min 2 - max 8)</label>
-                        <input min="2" max="8" v-model="length" type="number">
+                        <label for="rSuccess">
+                            <input
+                                id="rSuccess"
+                                type="checkbox"
+                                v-model="rSuccess"
+                            >
+                            releaseSuccess
+                        </label>
                     </div>
                     <div class="item">
                         <label for="cButton">
@@ -60,6 +69,26 @@
                             >
                             customButton
                         </label>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="item">
+                        <label>length (min 2 - max 8)</label>
+                        <input min="2" max="8" v-model="length" type="number">
+                    </div>
+                    <div class="item">
+                        <label>releaseErrorDelay (milliseconds)</label>
+                        <input min="0" max="10000" v-model="rErrorDelay" type="number">
+                    </div>
+                    <div class="item">
+                        <label>releaseSuccessDelay (milliseconds)</label>
+                        <input
+                            min="0"
+                            max="10000"
+                            v-model="rSuccessDelay"
+                            type="number"
+                            :disabled="!rSuccess"
+                        />
                     </div>
                 </div>
             </section>
@@ -105,6 +134,23 @@ import { computed, ref } from "vue"
 import VuePincode from "../lib/VuePincode.vue"
 import packageInfo from "../package.json"
 
+const cVersion = packageInfo.version
+const answer = "12345678"
+const pincodeInput = ref()
+
+const length = ref(4)
+const rSuccess = ref(true)
+const cButton = ref(false)
+const rErrorDelay = ref(500)
+const rSuccessDelay = ref(2500)
+const cButtonFn = ref(() => alert("the custom button function is passed through the \"clickButton\" component event"))
+
+const bIcon = ref("")
+const tColor = ref("#000000")
+const fColor = ref("#000000")
+const fSuccessColor = ref("#000000")
+const fErrorColor = ref("#000000")
+
 const getCssVar = (name: string) => {
     const h = document.getElementById("pincode") as HTMLElement
     return getComputedStyle(h).getPropertyValue(name).trim()
@@ -113,19 +159,6 @@ const setCssVar = (name: string, value: string) => {
     const h = document.getElementById("pincode") as HTMLElement
     h.style.setProperty(name, value)
 }
-
-const cVersion = packageInfo.version
-const answer = "12345678"
-
-const length = ref(4)
-const cButton = ref(false)
-const cButtonFn = ref(() => alert("custom button function pass through \"customButtonFn\" prop"))
-
-const bIcon = ref("")
-const tColor = ref("#000000")
-const fColor = ref("#000000")
-const fSuccessColor = ref("#000000")
-const fErrorColor = ref("#000000")
 
 const handleMounted = () => {
     tColor.value = getCssVar("--pc-color-button")
@@ -175,8 +208,6 @@ const buttonIcon = computed({
         setCssVar("--pc-custom-button-icon", value)
     }
 })
-
-const pincodeInput = ref()
 
 function checkPincode(pincode: string) {
     setTimeout(() => {

@@ -135,6 +135,7 @@ module.exports = {
         {
             files: [
                 "./lib/VuePincode.vue",
+                "./lib/components/UndoIcon.vue",
                 "./src/App.vue"
             ],
             rules: {
