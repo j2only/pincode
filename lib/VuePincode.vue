@@ -1,5 +1,6 @@
 <template>
     <div
+        :id="name"
         class="vue-pincode"
         :class="{
             'is-success': pincodeSuccess,
@@ -29,7 +30,14 @@
             >
                 <span>{{ number }}</span>
             </button>
-            <div />
+            <template v-if="customButton">
+                <button @click="customButtonFn()">
+                    <span class="is-custom" />
+                </button>
+            </template>
+            <template v-else>
+                <div />
+            </template>
             <button @click="clickPinButton(0)" :disabled="buttonDisabled">
                 <span>0</span>
             </button>
@@ -57,14 +65,26 @@ export default defineComponent({
         length: {
             type: Number,
             default: 4
+        },
+        name: {
+            type: String,
+            default: "pincode"
+        },
+        customButton: {
+            type: Boolean,
+            default: false
+        },
+        customButtonFn: {
+            type: Function,
+            default: () => {}
         }
     },
     setup(props, { emit }) {
         const setupLength = computed(() => {
-            if (props.length < 3)
-                return 3
-            else if (props.length > 6)
-                return 6
+            if (props.length < 2)
+                return 2
+            else if (props.length > 8)
+                return 8
             return props.length
         })
         const pincode = ref("")
@@ -122,10 +142,11 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .vue-pincode {
-    --pc-color-button: #36485e;
+    --pc-color-button: #000000;
     --pc-color-field-normal: #36485e;
     --pc-color-field-success: #42B983;
     --pc-color-field-error: #eb0c0c;
+    --pc-custom-button-icon: url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 256 256' enable-background='new 0 0 256 256' xml:space='preserve'%3E%3Cmetadata%3E Svg Vector Icons : http://www.onlinewebfonts.com/icon %3C/metadata%3E%3Cg%3E%3Cg%3E%3Cg%3E%3Cpath fill='%23000000' d='M123.7,10.3c-7,1-12.8,4.7-16.8,10.7c-2.3,3.5-3,7.4-1.7,9.3c2.4,3.6,8,2.8,9.6-1.3c1.3-3.2,5.7-6.8,9.6-7.8c7.3-2,15.1,2.5,17.4,10.2c1.3,4.2,0.1,9.2-2.1,8.9c-4.4-0.6-21.1-0.2-25.2,0.6c-30.3,6.1-53,27.7-61,57.9c-1,4-1.3,11.1-1.7,36.2l-0.6,31.2l-5.3,20.7c-6.3,24.7-6.4,25.7-2.4,27.8c2.2,1.1,165.8,1.3,168.9,0.1c4.1-1.6,4-3.1-2.1-26.7l-5.8-21.9l-0.4-31.6c-0.5-29.1-0.6-32.1-2.2-37.8c-4.7-17.3-16.4-33.8-30.3-43.3c-5.1-3.4-16.9-9.4-18.6-9.4c-0.9,0-0.9-0.7-0.5-3C156.3,22.9,142,7.6,123.7,10.3z M143.3,52.5c7.2,1.7,20,8.1,25.9,13c10.7,8.8,19,22,22.3,35.6c1.4,6.1,1.6,9.4,1.6,35.2l0.1,28.4l5,19.9l5.1,20h-75c-66.7,0-75-0.2-75-1.2c0-0.7,2.1-9.6,4.7-19.8l4.7-18.5v-27.7c0-20.5,0.3-29.1,1.1-33.4c5.3-27.6,27.1-48.4,55.4-52.8C125.2,50.4,136.7,50.9,143.3,52.5z'/%3E%3Cpath fill='%23000000' d='M98.7,221.3c-1.8,2.5-1.6,4.4,1.1,9c3,5.2,8.6,10.2,15,13.3c4.8,2.3,5.8,2.4,13.8,2.4c8.1,0,9-0.2,13.9-2.4c8.2-4,15.9-11.9,17-17.6c0.7-3.6-1.3-6.4-4.8-6.4c-2.7,0-5.9,2.2-5.9,4s-7,8.2-10.7,10c-2.9,1.4-5.4,1.9-9.5,1.9c-4.1,0-6.6-0.5-9.5-1.9c-3.7-1.7-10.7-8.2-10.7-10c0-0.4-0.7-1.5-1.6-2.4C104.7,218.9,100.3,219,98.7,221.3z'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     padding: 1rem;
     .vue-pincode-fields {
         display: flex;
@@ -188,6 +209,11 @@ export default defineComponent({
             span {
                 opacity: 1;
                 transition: all 0.2s linear;
+                &.is-custom {
+                    background: transparent var(--pc-custom-button-icon) no-repeat center;
+                    width: 2.5rem;
+                    height: 100%;
+                }
             }
         }
     }

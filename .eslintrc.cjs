@@ -134,8 +134,8 @@ module.exports = {
         },
         {
             files: [
-                "./demo/src/App.vue",
-                "./src/SlideUnlock.vue"
+                "./lib/VuePincode.vue",
+                "./src/App.vue"
             ],
             rules: {
                 "max-len": 0
