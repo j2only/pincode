@@ -13,7 +13,7 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
 
-     - name: Enable Corepack for Yarn 4
+      - name: Enable Corepack for Yarn 4
         run: |
           corepack enable
 
