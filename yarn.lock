@@ -344,9 +344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joseph2/vue-pincode@workspace:.":
+"@j2only/pincode@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@joseph2/vue-pincode@workspace:."
+  resolution: "@j2only/pincode@workspace:."
   dependencies:
     "@stylistic/stylelint-plugin": "npm:^2.0.0"
     "@types/eslint": "npm:^8.56.2"

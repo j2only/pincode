@@ -3,11 +3,8 @@
     "private": false,
     "version": "0.4.0",
     "type": "module",
-    "description": "Neumorphism styled pincode input field for Vue.js 3 + Vite + Typescript",
-    "author": {
-        "name": "Anton Zolotov",
-        "email": "antonzolotov@outlook.com"
-    },
+    "description": "Vue.js pincode input component. Written entirely on Vue 3 Composition API with Typescript and Vite.",
+    "author": "Anton Zolotov <antonzolotov@outlook.com>",
     "files": [
         "dist"
     ],
@@ -55,13 +52,13 @@
     ],
     "packageManager": "yarn@4.1.0",
     "license": "MIT",
-    "homepage": "https://weslinkde.github.io/vue-pincode/",
+    "homepage": "https://j2only.github.io/vue-pincode/",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/joseph2/vue-pincode.git"
+        "url": "git+https://github.com/j2only/vue-pincode.git"
     },
     "bugs": {
-        "url": "https://github.com/joseph2/vue-pincode/issues"
+        "url": "https://github.com/j2only/vue-pincode/issues"
     },
     "keywords": [
         "pincode",
@@ -72,9 +69,13 @@
         "vue3",
         "vue.js",
         "typescript",
-        "vue-pincode",
-        "weslink",
+        "vue pincode",
+        "j2only",
         "joseph2",
-        "neumorphism"
-    ]
+        "customizable"
+    ],
+    "directories": {
+        "lib": "lib",
+        "test": "tests"
+    }
 }

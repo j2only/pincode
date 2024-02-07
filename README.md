@@ -1,6 +1,9 @@
 # vue-pincode
 
-[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/joseph2/vue-slide-unlock/issues)
+[![npm](https://img.shields.io/npm/v/@j2only/pincode)](https://www.npmjs.com/package/@j2only/pincode)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/)
+[![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/j2only/vue-pincode/issues)
+![GitHub](https://img.shields.io/github/license/j2only/vue-pincode)
 
 Vue.js pincode input component. :lock:
 Written entirely on Vue 3 Composition API with Typescript and Vite. Compatible only with Vue.js 3.x.
@@ -10,14 +13,14 @@ Written entirely on Vue 3 Composition API with Typescript and Vite. Compatible o
 - Customizable
 - Smooth animations
 
-You can check a [DEMO HERE](https://joseph2.github.io/vue-pincode/)
+You can check a [DEMO HERE](https://j2only.github.io/vue-pincode/)
 
 ## Installation
 
 Install this component via package manager:
 
 ```bash
-yarn add @weslink/vue-pincode
+yarn add @j2only/pincode
 ```
 
 ## Usage
@@ -98,4 +101,5 @@ Also, you can customize some styles via CSS Variables:
 
 ## Licensing
 
-Original author: Dominik Lenz :copyright: 2020 [Weslink GmbH](https://weslink.de), [MIT License](LICENSE)
+MIT License
+Forked from [@weslinkde/vue-pincode](https://github.com/weslinkde/vue-pincode), Dominik Lenz :copyright: 2020 [Weslink GmbH](https://weslink.de), [MIT License](LICENSE)
