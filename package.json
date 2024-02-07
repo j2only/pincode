@@ -1,7 +1,7 @@
 {
     "name": "@j2only/pincode",
     "private": false,
-    "version": "0.4.0",
+    "version": "0.4.1",
     "type": "module",
     "description": "Vue.js pincode input component. Written entirely on Vue 3 Composition API with Typescript and Vite.",
     "author": "Anton Zolotov <antonzolotov@outlook.com>",
