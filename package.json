@@ -19,7 +19,7 @@
         "lint": "run lint:js && run lint:style",
         "lint:js": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
         "lint:style": "stylelint **/*.{vue,css,scss} --ignore-path .gitignore --fix --config ./.stylelintrc-format",
-        "prepublishOnly": "run build"
+        "prepublishOnly": "yarn build"
     },
     "dependencies": {
         "vue": "^3.4.15"
