@@ -131,7 +131,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue"
-import VuePincode from "../lib/VuePincode.vue"
+import VuePincode from "../lib/index"
 import packageInfo from "../package.json"
 
 const cVersion = packageInfo.version

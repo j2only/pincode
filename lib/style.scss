@@ -1,0 +1,218 @@
+.vue-pincode {
+    --pc-color-button: #010101;
+    --pc-color-field-normal: #234567;
+    --pc-color-field-success: #42B983;
+    --pc-color-field-error: #eb0c0c;
+    --pc-custom-button-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='%23000' fill-rule='nonzero'%3E%3Cpath d='M4.1 22v-9c0-5 3.9-8.9 9-8.9h8.8A2 2 0 1 0 22 0H13C5.7 0 0 5.7 0 13v9a2 2 0 1 0 4.1 0ZM75.9 22v-9c0-5-3.9-8.9-9-8.9h-8.8A2 2 0 1 1 58 0H67c7.3 0 13 5.7 13 13v9a2 2 0 1 1-4.1 0ZM4.1 58v9c0 5 3.9 8.9 9 8.9h8.8a2 2 0 1 1 0 4.1H13C5.7 80 0 74.3 0 67v-9a2 2 0 1 1 4.1 0ZM75.9 58v9c0 5-3.9 8.9-9 8.9h-8.8a2 2 0 1 0 0 4.1H67c7.3 0 13-5.7 13-13v-9a2 2 0 1 0-4.1 0ZM21.8 30.2V36c0 1.2.8 2.2 2 2.2 1 0 2-1 2-2.2v-5.7c0-1.2-1-2.1-2-2.1-1.2 0-2 1-2 2.1ZM54.7 30.2V36c0 1.2 1 2.2 2 2.2 1.1 0 2-1 2-2.2v-5.7c0-1.2-.9-2.1-2-2.1-1 0-2 1-2 2.1ZM26 59a20 20 0 0 0 14 5.6A20 20 0 0 0 54 59a2.1 2.1 0 0 0-2.8-3.1c-3.1 3-6.8 4.4-11.2 4.4-4.4 0-8-1.5-11.2-4.4a2.1 2.1 0 0 0-2.9 3ZM40 30.2v14.7c0 1-.5 1.4-1.4 1.4h-1.4a2.1 2.1 0 1 0 0 4.2h1.4c3.3 0 5.6-2.3 5.6-5.6V30.2a2.1 2.1 0 1 0-4.2 0Z'/%3E%3C/g%3E%3C/svg%3E");
+
+    padding: 1rem;
+
+    .vue-pincode-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 200px;
+        padding: 0 20px;
+        margin: 20px auto 50px;
+
+        span {
+            height: 0.875rem;
+            width: 0.875rem;
+            box-shadow: inset 0 0 0 2px var(--pc-color-field-normal);
+            background-color: transparent;
+            border-radius: 100%;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+            transition: box-shadow 0.2s linear;
+
+            &.active {
+                animation: scale 0.3s ease-out 1;
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-normal);
+            }
+
+        }
+
+        &.is-miss {
+            animation: miss 0.8s ease-out 1;
+        }
+
+        &.is-success {
+            animation: success 1s ease 1;
+
+            span {
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-success);
+            }
+        }
+    }
+
+    .vue-pincode-numbers {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        place-items: center center;
+        gap: 1rem 1rem;
+
+        button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 4.5rem;
+            height: 4.5rem;
+            border-radius: 50%;
+            color: var(--pc-color-button);
+            background-color: transparent;
+            user-select: none;
+            font-size: 1.5rem;
+            outline: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s linear;
+
+            &:active {
+                background-color: #efefef;
+                transform: scale(0.95);
+            }
+
+            span {
+                opacity: 1;
+                transition: all 0.2s linear;
+
+                &.is-custom {
+                    background: transparent var(--pc-custom-button-icon) no-repeat center;
+                    width: 2rem;
+                    height: 100%;
+                    background-size: contain;
+                }
+            }
+        }
+    }
+
+    .vue-pincode-undo {
+        &:active {
+            svg {
+                transform: rotate(-135deg);
+            }
+        }
+
+        span {
+            transform: translateY(3px);
+        }
+
+        svg {
+            width: 1.75rem;
+            height: 1.75rem;
+            transform: rotate(45deg);
+            transition: transform 0.15s cubic-bezier(0.85, 0, 0.15, 1);
+            fill: var(--pc-color-button);
+        }
+    }
+
+    &.is-success {
+        .vue-pincode-numbers {
+            button {
+                box-shadow: 0 0 0 #bbcfda, 0 0 0 #fff,
+                    inset 0 0 0 rgb(209 217 230 / 35%),
+                    inset 0 0 0 rgb(255 255 255 / 30%);
+                transform: translateY(2px);
+                color: #36485e52;
+
+                span {
+                    opacity: 0.4;
+
+                    &.is-custom {
+                        opacity: 0.1;
+                    }
+                }
+            }
+        }
+
+        .vue-pincode-undo {
+            svg {
+                fill: #36485e52;
+            }
+        }
+    }
+
+    &.is-error {
+        color: var(--pc-color-field-error);
+
+        .vue-pincode-fields {
+            span {
+                box-shadow: inset 0 0 0 7px var(--pc-color-field-error) !important;
+            }
+        }
+    }
+}
+
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes success {
+    0% {
+        transform: scale(1);
+        transform: translate(0, 0);
+    }
+
+    30% {
+        transform: scale(1.05);
+        transform: translate(0, -5px);
+    }
+
+    100% {
+        transform: scale(1);
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes miss {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-25px, 0);
+    }
+
+    20% {
+        transform: translate(25px, 0);
+    }
+
+    30% {
+        transform: translate(-20px, 0);
+    }
+
+    40% {
+        transform: translate(20px, 0);
+    }
+
+    50% {
+        transform: translate(-10px, 0);
+    }
+
+    60% {
+        transform: translate(10px, 0);
+    }
+
+    70% {
+        transform: translate(-5px, 0);
+    }
+
+    80% {
+        transform: translate(5px, 0);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}

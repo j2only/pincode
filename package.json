@@ -1,6 +1,7 @@
 {
-    "name": "@joseph2/vue-pincode",
-    "version": "0.3.5",
+    "name": "@j2only/pincode",
+    "private": false,
+    "version": "0.4.0",
     "type": "module",
     "description": "Neumorphism styled pincode input field for Vue.js 3 + Vite + Typescript",
     "author": {
@@ -10,9 +11,9 @@
     "files": [
         "dist"
     ],
-    "main": "dist/vite-pincode.js",
-    "module": "dist/vue-slide-unlock.es.js",
-    "types": "dist/types/index.d.ts",
+    "main": "dist/vite-pincode.umd.js",
+    "module": "dist/vite-pincode.es.js",
+    "types": "dist/VuePincode.vue.d.ts",
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --p ./tsconfig.build.json && vite build",
@@ -20,7 +21,8 @@
         "preview": "vite preview",
         "lint": "run lint:js && run lint:style",
         "lint:js": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
-        "lint:style": "stylelint **/*.{vue,css,scss} --ignore-path .gitignore --fix --config ./.stylelintrc-format"
+        "lint:style": "stylelint **/*.{vue,css,scss} --ignore-path .gitignore --fix --config ./.stylelintrc-format",
+        "prepublishOnly": "run build"
     },
     "dependencies": {
         "vue": "^3.4.15"
@@ -45,8 +47,12 @@
         "typescript": "^5.2.2",
         "vite": "^5.0.12",
         "vite-plugin-dts": "^3.7.2",
+        "vite-plugin-lib-inject-css": "^1.3.0",
         "vue-tsc": "^1.8.27"
     },
+    "sideEffects": [
+        "**/*.css"
+    ],
     "packageManager": "yarn@4.1.0",
     "license": "MIT",
     "homepage": "https://weslinkde.github.io/vue-pincode/",
