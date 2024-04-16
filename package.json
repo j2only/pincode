@@ -1,6 +1,6 @@
 {
     "name": "@j2only/pincode",
-    "version": "0.4.2",
+    "version": "0.4.3",
     "type": "module",
     "description": "Vue.js pincode input component. Written entirely on Vue 3 Composition API with Typescript and Vite.",
     "author": "Anton Zolotov <antonzolotov@outlook.com>",
@@ -10,6 +10,12 @@
     "main": "dist/vite-pincode.umd.js",
     "module": "dist/vite-pincode.es.js",
     "types": "dist/VuePincode.vue.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/vite-pincode.es.js",
+            "require": "./dist/vite-pincode.umd.js"
+        }
+    },
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --p ./tsconfig.build.json && vite build",
@@ -21,26 +27,26 @@
         "prepublishOnly": "yarn build"
     },
     "dependencies": {
-        "vue": "^3.4.20"
+        "vue": "^3.4.22"
     },
     "devDependencies": {
-        "@stylistic/stylelint-plugin": "^2.1.0",
-        "@types/eslint": "^8.56.3",
-        "@types/node": "^20.11.20",
+        "@stylistic/stylelint-plugin": "^2.1.1",
+        "@types/eslint": "^8.56.9",
+        "@types/node": "^20.12.7",
         "@vitejs/plugin-vue": "^5.0.4",
         "@vue/eslint-config-standard": "^8.0.1",
         "@vue/eslint-config-typescript": "^12.0.0",
         "eslint": "^8.57.0",
-        "eslint-plugin-vue": "^9.22.0",
+        "eslint-plugin-vue": "^9.25.0",
         "postcss-html": "^1.6.0",
-        "sass": "^1.71.1",
-        "stylelint": "^16.2.1",
+        "sass": "^1.75.0",
+        "stylelint": "^16.3.1",
         "stylelint-config-recommended-vue": "^1.5.0",
-        "stylelint-config-standard-scss": "^13.0.0",
+        "stylelint-config-standard-scss": "^13.1.0",
         "stylelint-order": "^6.0.4",
-        "typescript": "^5.2.2",
-        "vite": "^5.1.4",
-        "vite-plugin-dts": "^3.7.3",
+        "typescript": "^5.4.5",
+        "vite": "^5.2.9",
+        "vite-plugin-dts": "^3.8.3",
         "vite-plugin-lib-inject-css": "^1.3.0",
         "vue-tsc": "^1.8.27"
     },
