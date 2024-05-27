@@ -36,7 +36,8 @@ Import the component in your app and pass some settings:
         :releaseSuccessDelay="2500"
         :releaseErrorDelay="500"
         :customButton="true"
-        @clickButton="cButtonFn"
+        @clickButton="buttonFn"
+        @clickCustomButton="cButtonFn"
         @pincode="checkPincode"
     />
 </template>
@@ -89,10 +90,11 @@ Also, you can customize some styles via CSS Variables:
 
 ## Events
 
-| Event       | Description                                                          |
-| ----------- | -------------------------------------------------------------------- |
-| pincode     | Is triggered when the entered pincode length is equal to length prop |
-| clickButton | Is triggered when the custom button is pressed                       |
+| Event             | Description                                                          |
+| ----------------- | -------------------------------------------------------------------- |
+| pincode           | Is triggered when the entered pincode length is equal to length prop |
+| clickButton       | Is triggered when the some of digit buttons is pressed               |
+| clickCustomButton | Is triggered when the custom button is pressed                       |
 
 ## Project development
 

@@ -31,7 +31,7 @@
                 <span>{{ number }}</span>
             </button>
             <template v-if="customButton">
-                <button @click="$emit('clickButton')">
+                <button @click="$emit('clickCustomButton')">
                     <span class="is-custom" />
                 </button>
             </template>
@@ -102,8 +102,10 @@ export default defineComponent({
         const buttonDisabled = computed(() => pincodeError.value || pincodeSuccess.value)
 
         const clickPinButton = (pressedNumber: number) => {
-            if (pincodeLength.value < setupLength.value)
+            if (pincodeLength.value < setupLength.value) {
                 pincode.value += pressedNumber
+                emit("clickButton")
+            }
         }
 
         const resetPincode = () => {
