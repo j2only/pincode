@@ -28,7 +28,7 @@ Import the component in your app and pass some settings:
 
 ```typescript
 <template>
-    <VuePincode
+    <vue-pincode
         name="pincode"
         ref="pincodeInput"
         :length="4"
@@ -47,7 +47,6 @@ import VuePincode from "@j2only/pincode";
 const pincodeInput = ref()
 const cButtonFn = ref(() => alert("the custom button clicked!"))
 const answer = "1234"
-
 
 function checkPincode(pincode: string) {
     setTimeout(() => {
@@ -77,13 +76,16 @@ As you can see, the component accepts some props:
 
 Also, you can customize some styles via CSS Variables:
 
-| Variable                 | Default | Description                             |
-| ------------------------ | ------- | --------------------------------------- |
-| --pc-color-button        | #000000 | Color of digits                         |
-| --pc-color-field-normal  | #234567 | Color of fields                         |
-| --pc-color-field-success | #42b983 | Color of fields when pincode is correct |
-| --pc-color-field-error   | #eb0c0c | Color of fields when pincode is invalid |
-| --pc-custom-button-icon  | base64  | Custom button icon                      |
+| Variable                     | Default       | Description                             |
+| ---------------------------- | ------------- | --------------------------------------- |
+| --pc-color-button            | #010101       | Color of digits                         |
+| --pc-color-button-pressed    | #474747       | Color of pressed digit                  |
+| --pc-color-button-bg         | #f6f6f6       | Color of digits background              |
+| --pc-color-button-bg-pressed | #eaeaea       | Color of pressed digit background       |
+| --pc-color-field-normal      | #234567       | Color of fields                         |
+| --pc-color-field-success     | #42b983       | Color of fields when pincode is correct |
+| --pc-color-field-error       | #eb0c0c       | Color of fields when pincode is invalid |
+| --pc-custom-button-icon      | base64 string | Custom button icon                      |
 
 ## Events
 

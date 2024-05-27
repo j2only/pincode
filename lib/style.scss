@@ -1,5 +1,8 @@
 .vue-pincode {
     --pc-color-button: #010101;
+    --pc-color-button-pressed: #474747;
+    --pc-color-button-bg: #f6f6f6;
+    --pc-color-button-bg-pressed: #eaeaea;
     --pc-color-field-normal: #234567;
     --pc-color-field-success: #42b983;
     --pc-color-field-error: #eb0c0c;
@@ -52,16 +55,16 @@
             height: 4.5rem;
             border-radius: 50%;
             color: var(--pc-color-button);
-            background-color: transparent;
+            background-color: var(--pc-color-button-bg);
             user-select: none;
             font-size: 1.5rem;
             outline: none;
             cursor: pointer;
             border: none;
-            transition: all 0.2s linear;
+            transition: all 0.125s ease-in;
             &:active {
-                background-color: #efefef;
-                transform: scale(0.95);
+                background-color: var(--pc-color-button-bg-pressed);
+                color: var(--pc-color-button-pressed);
             }
             span {
                 opacity: 1;

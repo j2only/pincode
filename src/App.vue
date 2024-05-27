@@ -100,21 +100,34 @@
                         <input v-model="buttonIcon" type="text">
                     </div>
                 </div>
+                <br/>
                 <div class="grid">
                     <div class="item">
-                        <label>textColor</label>
+                        <label>Digits color</label>
                         <input v-model="textColor" type="color">
                     </div>
                     <div class="item">
-                        <label>fieldsColor</label>
+                        <label>Pressed digit color</label>
+                        <input v-model="textColorPressed" type="color">
+                    </div>
+                    <div class="item">
+                        <label>Digits background color</label>
+                        <input v-model="textColorBg" type="color">
+                    </div>
+                    <div class="item">
+                        <label>Pressed digit background color</label>
+                        <input v-model="textColorBgPressed" type="color">
+                    </div>
+                    <div class="item">
+                        <label>Fields color</label>
                         <input v-model="fieldColor" type="color">
                     </div>
                     <div class="item">
-                        <label>fieldsColorSuccess</label>
+                        <label>Fields color success</label>
                         <input v-model="fieldColorSuccess" type="color">
                     </div>
                     <div class="item">
-                        <label>fieldsColorError</label>
+                        <label>Fields color error</label>
                         <input v-model="fieldColorError" type="color">
                     </div>
                 </div>
@@ -147,6 +160,9 @@ const cButtonFn = ref(() => alert("the custom button function is passed through 
 
 const bIcon = ref("")
 const tColor = ref("#000000")
+const tPressedColor = ref("#000000")
+const tBgColor = ref("#000000")
+const tBgPressedColor = ref("#000000")
 const fColor = ref("#000000")
 const fSuccessColor = ref("#000000")
 const fErrorColor = ref("#000000")
@@ -162,6 +178,9 @@ const setCssVar = (name: string, value: string) => {
 
 const handleMounted = () => {
     tColor.value = getCssVar("--pc-color-button")
+    tPressedColor.value = getCssVar("--pc-color-button-pressed")
+    tBgColor.value = getCssVar("--pc-color-button-bg")
+    tBgPressedColor.value = getCssVar("--pc-color-button-bg-pressed")
     fColor.value = getCssVar("--pc-color-field-normal")
     fSuccessColor.value = getCssVar("--pc-color-field-success")
     fErrorColor.value = getCssVar("--pc-color-field-error")
@@ -174,6 +193,30 @@ const textColor = computed({
     },
     set(value) {
         setCssVar("--pc-color-button", value)
+    }
+})
+const textColorPressed = computed({
+    get() {
+        return tPressedColor.value
+    },
+    set(value) {
+        setCssVar("--pc-color-button-pressed", value)
+    }
+})
+const textColorBg = computed({
+    get() {
+        return tBgColor.value
+    },
+    set(value) {
+        setCssVar("--pc-color-button-bg", value)
+    }
+})
+const textColorBgPressed = computed({
+    get() {
+        return tBgPressedColor.value
+    },
+    set(value) {
+        setCssVar("--pc-color-button-bg-pressed", value)
     }
 })
 const fieldColor = computed({
