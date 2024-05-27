@@ -1,19 +1,19 @@
 {
     "name": "@j2only/pincode",
-    "version": "0.4.3",
+    "version": "0.4.4",
     "type": "module",
     "description": "Vue.js pincode input component. Written entirely on Vue 3 Composition API with Typescript and Vite.",
     "author": "Anton Zolotov <antonzolotov@outlook.com>",
     "files": [
         "dist"
     ],
-    "main": "dist/vite-pincode.umd.js",
-    "module": "dist/vite-pincode.es.js",
+    "main": "dist/pincode.umd.js",
+    "module": "dist/pincode.es.js",
     "types": "dist/VuePincode.vue.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/vite-pincode.es.js",
-            "require": "./dist/vite-pincode.umd.js"
+            "import": "./dist/pincode.es.js",
+            "require": "./dist/pincode.umd.js"
         }
     },
     "scripts": {
@@ -27,28 +27,28 @@
         "prepublishOnly": "yarn build"
     },
     "dependencies": {
-        "vue": "^3.4.22"
+        "vue": "^3.4.27"
     },
     "devDependencies": {
-        "@stylistic/stylelint-plugin": "^2.1.1",
-        "@types/eslint": "^8.56.9",
-        "@types/node": "^20.12.7",
+        "@stylistic/stylelint-plugin": "^2.1.2",
+        "@types/eslint": "^8.56.10",
+        "@types/node": "^20.12.12",
         "@vitejs/plugin-vue": "^5.0.4",
         "@vue/eslint-config-standard": "^8.0.1",
         "@vue/eslint-config-typescript": "^12.0.0",
         "eslint": "^8.57.0",
-        "eslint-plugin-vue": "^9.25.0",
-        "postcss-html": "^1.6.0",
-        "sass": "^1.75.0",
-        "stylelint": "^16.3.1",
+        "eslint-plugin-vue": "^9.26.0",
+        "postcss-html": "^1.7.0",
+        "sass": "^1.77.2",
+        "stylelint": "^16.6.0",
         "stylelint-config-recommended-vue": "^1.5.0",
         "stylelint-config-standard-scss": "^13.1.0",
         "stylelint-order": "^6.0.4",
         "typescript": "^5.4.5",
-        "vite": "^5.2.9",
-        "vite-plugin-dts": "^3.8.3",
-        "vite-plugin-lib-inject-css": "^1.3.0",
-        "vue-tsc": "^1.8.27"
+        "vite": "^5.2.11",
+        "vite-plugin-dts": "^3.9.1",
+        "vite-plugin-lib-inject-css": "^2.1.1",
+        "vue-tsc": "^2.0.19"
     },
     "sideEffects": [
         "**/*.css"
@@ -56,15 +56,15 @@
     "publishConfig": {
         "access": "public"
     },
-    "packageManager": "yarn@4.1.0",
+    "packageManager": "yarn@4.2.2",
     "license": "MIT",
-    "homepage": "https://j2only.github.io/vue-pincode/",
+    "homepage": "https://j2only.github.io/pincode/",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/j2only/vue-pincode.git"
+        "url": "git+https://github.com/j2only/pincode.git"
     },
     "bugs": {
-        "url": "https://github.com/j2only/vue-pincode/issues"
+        "url": "https://github.com/j2only/pincode/issues"
     },
     "keywords": [
         "pincode",
@@ -75,7 +75,7 @@
         "vue3",
         "vue.js",
         "typescript",
-        "vue pincode",
+        "vue pin",
         "j2only",
         "joseph2",
         "customizable"
