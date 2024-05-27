@@ -42,7 +42,7 @@ Import the component in your app and pass some settings:
 </template>
 
 <script setup lang="ts">
-import VuePincode from "./components/VuePincode";
+import VuePincode from "@j2only/pincode";
 
 const pincodeInput = ref()
 const cButtonFn = ref(() => alert("the custom button clicked!"))
