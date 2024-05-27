@@ -31,7 +31,7 @@
                 <span>{{ number }}</span>
             </button>
             <template v-if="customButton">
-                <button @click="$emit('clickCustomButton')">
+                <button @click="clickCustomButton()">
                     <span class="is-custom" />
                 </button>
             </template>
@@ -43,7 +43,7 @@
             </button>
             <button
                 class="vue-pincode-undo"
-                @click="resetPincode"
+                @click="resetPincode()"
                 :disabled="buttonDisabled"
             >
                 <span>
@@ -102,16 +102,21 @@ export default defineComponent({
         const buttonDisabled = computed(() => pincodeError.value || pincodeSuccess.value)
 
         const clickPinButton = (pressedNumber: number) => {
-            if (pincodeLength.value < setupLength.value) {
+            emit("clickButton")
+            if (pincodeLength.value < setupLength.value)
                 pincode.value += pressedNumber
-                emit("clickButton")
-            }
         }
 
         const resetPincode = () => {
+            emit("clickButton")
             pincode.value = ""
             pincodeError.value = false
             pincodeSuccess.value = false
+        }
+
+        const clickCustomButton = () => {
+            emit("clickButton")
+            emit("clickCustomButton")
         }
 
         const triggerMiss = () => {
@@ -143,6 +148,7 @@ export default defineComponent({
             buttonDisabled,
             clickPinButton,
             resetPincode,
+            clickCustomButton,
             triggerMiss,
             triggerSuccess
         }

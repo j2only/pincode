@@ -42,7 +42,7 @@
                     :releaseSuccessDelay="rSuccessDelay"
                     :releaseErrorDelay="rErrorDelay"
                     :customButton="cButton"
-                    @clickButton="cButtonFn"
+                    @clickCustomButton="cButtonFn"
                     @pincode="checkPincode"
                     @vue:mounted="handleMounted"
                 />
