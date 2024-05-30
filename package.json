@@ -1,6 +1,6 @@
 {
     "name": "@j2only/pincode",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "type": "module",
     "description": "Vue.js pincode input component. Written entirely on Vue 3 Composition API with Typescript and Vite.",
     "author": "Anton Zolotov <antonzolotov@outlook.com>",
@@ -9,13 +9,19 @@
     ],
     "main": "dist/pincode.umd.js",
     "module": "dist/pincode.es.js",
-    "types": "dist/VuePincode.vue.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/pincode.es.js",
-            "require": "./dist/pincode.umd.js"
+            "import": {
+                "default": "./dist/pincode.es.js",
+                "types": "./dist/VuePincode.vue.d.ts"
+            },
+            "require": {
+                "default": "./dist/pincode.umd.js",
+                "types": "./dist/VuePincode.vue.d.ts"
+            }
         }
     },
+    "types": "dist/VuePincode.vue.d.ts",
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc --p ./tsconfig.build.json && vite build",
