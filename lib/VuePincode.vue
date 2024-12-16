@@ -90,6 +90,10 @@ export default defineComponent({
         releaseErrorDelay: {
             type: Number,
             default: 500
+        },
+        activeElement: {
+            type: Object,
+            default: () => document.body
         }
     },
     setup(props, { emit }) {
@@ -136,7 +140,7 @@ export default defineComponent({
         const handleKeydown = (event: KeyboardEvent) => {
             const pressedNumber = parseInt(event.key, 10)
             if (
-                document.activeElement === document.body &&
+                document.activeElement === props.activeElement &&
                 !isNaN(pressedNumber) &&
                 pressedNumber >= 0 &&
                 pressedNumber <= 9

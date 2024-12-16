@@ -64,14 +64,15 @@ function checkPincode(pincode: string) {
 
 As you can see, the component accepts some props:
 
-| Prop                | Type    | Default   | Description                                                          |
-| ------------------- | ------- | --------- | -------------------------------------------------------------------- |
-| name                | String  | "pincode" | Unique ID, in case of using several components on one page           |
-| length              | Number  | 4         | Required pincode length, minimum 2, maximum 8                        |
-| releaseSuccess      | Boolean | true      | Reset state after delay when entered pincode is correct              |
-| releaseSuccessDelay | Number  | 2500      | Delay to reset state after entered pincode is correct (milliseconds) |
-| releaseErrorDelay   | Number  | 500       | Delay to reset state after entered pincode is invalid (milliseconds) |
-| customButton        | Boolean | false     | Show custom button                                                   |
+| Prop                | Type    | Default       | Description                                                                                          |
+| ------------------- | ------- | ------------- | ---------------------------------------------------------------------------------------------------- |
+| name                | String  | "pincode"     | Unique ID, in case of using several components on one page                                           |
+| length              | Number  | 4             | Required pincode length, minimum 2, maximum 8                                                        |
+| releaseSuccess      | Boolean | true          | Reset state after delay when entered pincode is correct                                              |
+| releaseSuccessDelay | Number  | 2500          | Delay to reset state after entered pincode is correct (milliseconds)                                 |
+| releaseErrorDelay   | Number  | 500           | Delay to reset state after entered pincode is invalid (milliseconds)                                 |
+| customButton        | Boolean | false         | Show custom button                                                                                   |
+| activeElement       | Object  | document.body | Default focused HTML element with vue-pincode, use if component placed on modal or something similar |
 
 ## CSS Variables
 
