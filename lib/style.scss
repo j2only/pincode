@@ -66,6 +66,11 @@
                 background-color: var(--pc-color-button-bg-pressed);
                 color: var(--pc-color-button-pressed);
             }
+            &.is-pressed {
+                background-color: var(--pc-color-button-bg-pressed);
+                color: var(--pc-color-button-pressed);
+                transition: background-color 0.05s;
+            }
             span {
                 opacity: 1;
                 transition: all 0.2s linear;

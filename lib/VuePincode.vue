@@ -25,6 +25,7 @@
                 v-for="(number, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
                 :key="idx"
                 class="shadow"
+                :class="{ 'is-pressed': activeButton === number }"
                 @click="clickPinButton(number)"
                 :disabled="buttonDisabled"
             >
@@ -38,7 +39,11 @@
             <template v-else>
                 <div />
             </template>
-            <button @click="clickPinButton(0)" :disabled="buttonDisabled">
+            <button
+                @click="clickPinButton(0)"
+                :disabled="buttonDisabled"
+                :class="{ 'is-pressed': activeButton === 0 }"
+            >
                 <span>0</span>
             </button>
             <button
@@ -55,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onUnmounted, ref, watch } from "vue"
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from "vue"
 import UndoIcon from "./components/UndoIcon.vue"
 
 export default defineComponent({
@@ -89,10 +94,8 @@ export default defineComponent({
     },
     setup(props, { emit }) {
         const setupLength = computed(() => {
-            if (props.length < 2)
-                return 2
-            else if (props.length > 8)
-                return 8
+            if (props.length < 2) return 2
+            else if (props.length > 8) return 8
             return props.length
         })
         const pincode = ref("")
@@ -100,6 +103,7 @@ export default defineComponent({
         const pincodeSuccess = ref(false)
         const pincodeLength = computed(() => pincode.value.length)
         const buttonDisabled = computed(() => pincodeError.value || pincodeSuccess.value)
+        const activeButton = ref<number | null>(null)
 
         const clickPinButton = (pressedNumber: number) => {
             emit("clickButton")
@@ -126,18 +130,38 @@ export default defineComponent({
 
         const triggerSuccess = () => {
             pincodeSuccess.value = true
-            if (props.releaseSuccess)
-                setTimeout(resetPincode, props.releaseSuccessDelay)
+            if (props.releaseSuccess) setTimeout(resetPincode, props.releaseSuccessDelay)
+        }
+
+        const handleKeydown = (event: KeyboardEvent) => {
+            const pressedNumber = parseInt(event.key, 10)
+            if (
+                document.activeElement === document.body &&
+                !isNaN(pressedNumber) &&
+                pressedNumber >= 0 &&
+                pressedNumber <= 9
+            ) {
+                activeButton.value = pressedNumber
+                clickPinButton(pressedNumber)
+                setTimeout(() => {
+                    activeButton.value = null
+                }, 50) // Reset the active state after 200ms
+            }
         }
 
         watch(pincode, () => {
-            if (pincodeLength.value === setupLength.value) {
-                // Emit the pincode event
+            if (pincodeLength.value === setupLength.value)
                 emit("pincode", pincode.value)
-            }
         })
 
-        onUnmounted(resetPincode)
+        onMounted(() => {
+            window.addEventListener("keydown", handleKeydown)
+        })
+
+        onUnmounted(() => {
+            window.removeEventListener("keydown", handleKeydown)
+            resetPincode()
+        })
 
         return {
             pincode,
@@ -146,6 +170,7 @@ export default defineComponent({
             setupLength,
             pincodeLength,
             buttonDisabled,
+            activeButton,
             clickPinButton,
             resetPincode,
             clickCustomButton,
