@@ -73,6 +73,7 @@ As you can see, the component accepts some props:
 | releaseErrorDelay   | Number  | 500           | Delay to reset state after entered pincode is invalid (milliseconds)                                 |
 | customButton        | Boolean | false         | Show custom button                                                                                   |
 | activeElement       | Object  | document.body | Default focused HTML element with vue-pincode, use if component placed on modal or something similar |
+| keyboardInput       | Boolean | true          | Dynamic prop for keyboard input capability                                                           |
 
 ## CSS Variables
 

@@ -24,7 +24,7 @@
             <button
                 v-for="(number, idx) in [1, 2, 3, 4, 5, 6, 7, 8, 9]"
                 :key="idx"
-                class="shadow"
+                class="vue-pincode-numbers-button shadow"
                 :class="{ 'is-pressed': activeButton === number }"
                 @click="clickPinButton(number)"
                 :disabled="buttonDisabled"
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from "vue"
+import { computed, defineComponent, onMounted, onUnmounted, ref, toRefs, watch } from "vue"
 import UndoIcon from "./components/UndoIcon.vue"
 
 export default defineComponent({
@@ -94,6 +94,10 @@ export default defineComponent({
         activeElement: {
             type: Object,
             default: () => document.body
+        },
+        keyboardInput: {
+            type: Boolean,
+            default: true
         }
     },
     setup(props, { emit }) {
@@ -108,6 +112,7 @@ export default defineComponent({
         const pincodeLength = computed(() => pincode.value.length)
         const buttonDisabled = computed(() => pincodeError.value || pincodeSuccess.value)
         const activeButton = ref<number | null>(null)
+        const { keyboardInput } = toRefs(props)
 
         const clickPinButton = (pressedNumber: number) => {
             emit("clickButton")
@@ -139,17 +144,18 @@ export default defineComponent({
 
         const handleKeydown = (event: KeyboardEvent) => {
             const pressedNumber = parseInt(event.key, 10)
-            if (
-                document.activeElement === props.activeElement &&
-                !isNaN(pressedNumber) &&
-                pressedNumber >= 0 &&
-                pressedNumber <= 9
-            ) {
-                activeButton.value = pressedNumber
-                clickPinButton(pressedNumber)
-                setTimeout(() => {
-                    activeButton.value = null
-                }, 50) // Reset the active state after 200ms
+            if (document.activeElement === props.activeElement || document.activeElement?.outerHTML.slice(1, 41) === "button class=\"vue-pincode-numbers-button") {
+                if (!isNaN(pressedNumber) && pressedNumber >= 0 && pressedNumber <= 9) {
+                    activeButton.value = pressedNumber
+                    clickPinButton(pressedNumber)
+                    setTimeout(() => {
+                        activeButton.value = null
+                    }, 50) // Reset the active state after 200ms
+                }
+                else if (event.key === "Backspace")
+                    pincode.value = pincode.value.slice(0, -1)
+                else if (event.key === "Delete")
+                    resetPincode()
             }
         }
 
@@ -158,12 +164,21 @@ export default defineComponent({
                 emit("pincode", pincode.value)
         })
 
+        watch(keyboardInput, () => {
+            if (keyboardInput.value)
+                window.addEventListener("keydown", handleKeydown)
+            else
+                window.removeEventListener("keydown", handleKeydown)
+        })
+
         onMounted(() => {
-            window.addEventListener("keydown", handleKeydown)
+            if (props.keyboardInput)
+                window.addEventListener("keydown", handleKeydown)
         })
 
         onUnmounted(() => {
-            window.removeEventListener("keydown", handleKeydown)
+            if (props.keyboardInput)
+                window.removeEventListener("keydown", handleKeydown)
             resetPincode()
         })
 
