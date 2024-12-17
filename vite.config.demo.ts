@@ -5,5 +5,6 @@ import { defineConfig } from "vite"
 // demo build config
 export default defineConfig({
     plugins: [vue()],
-    base: "/pincode/"
+    base: "/pincode/",
+    css: { preprocessorOptions: { scss: { api: "modern-compiler" } } }
 })

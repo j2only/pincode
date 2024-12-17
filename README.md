@@ -41,8 +41,9 @@ Import the component in your app and pass some settings:
         :releaseSuccessDelay="2500"
         :releaseErrorDelay="500"
         :customButton="true"
-        :activeElement="activeEl"
         :keyboardInput="true"
+        :focusRequired="true"
+        :activeElement="activeEl"
         @clickButton="buttonFn"
         @clickCustomButton="cButtonFn"
         @pincode="checkPincode"
@@ -80,8 +81,9 @@ As you can see, the component accepts some props:
 | releaseSuccessDelay | Number  | 2500          | Delay to reset state after entered pincode is correct (milliseconds)                                 |
 | releaseErrorDelay   | Number  | 500           | Delay to reset state after entered pincode is invalid (milliseconds)                                 |
 | customButton        | Boolean | false         | Show custom button                                                                                   |
-| activeElement       | Object  | document.body | Default focused HTML element with vue-pincode, use if component placed on modal or something similar |
 | keyboardInput       | Boolean | true          | Dynamic prop for keyboard input capability                                                           |
+| focusRequired       | Boolean | false         | Enable keyboard input only if vue-pincode if focused                                                 |
+| activeElement       | Object  | document.body | Default focused HTML element with vue-pincode, use if component placed on modal or something similar |
 
 ## CSS Variables
 

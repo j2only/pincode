@@ -43,6 +43,7 @@
                     :releaseErrorDelay="rErrorDelay"
                     :customButton="cButton"
                     :keyboardInput="kbInput"
+                    :focusRequired="fRequired"
                     @clickCustomButton="cButtonFn"
                     @pincode="checkPincode"
                     @vue:mounted="handleMounted"
@@ -69,6 +70,16 @@
                                 v-model="kbInput"
                             >
                             keyboardInput
+                        </label>
+                    </div>
+                    <div class="item">
+                        <label for="fRequired">
+                            <input
+                                id="fRequired"
+                                type="checkbox"
+                                v-model="fRequired"
+                            >
+                            focusRequired
                         </label>
                     </div>
                     <div class="item">
@@ -166,6 +177,7 @@ const length = ref(4)
 const rSuccess = ref(true)
 const cButton = ref(false)
 const kbInput = ref(true)
+const fRequired = ref(true)
 const rErrorDelay = ref(500)
 const rSuccessDelay = ref(2500)
 const cButtonFn = ref(() => alert("the custom button function is passed through the \"clickButton\" component event"))

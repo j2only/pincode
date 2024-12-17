@@ -91,13 +91,17 @@ export default defineComponent({
             type: Number,
             default: 500
         },
-        activeElement: {
-            type: Object,
-            default: () => document.body
-        },
         keyboardInput: {
             type: Boolean,
             default: true
+        },
+        focusRequired: {
+            type: Boolean,
+            default: false
+        },
+        activeElement: {
+            type: Object,
+            default: () => document.body
         }
     },
     setup(props, { emit }) {
@@ -144,7 +148,7 @@ export default defineComponent({
 
         const handleKeydown = (event: KeyboardEvent) => {
             const pressedNumber = parseInt(event.key, 10)
-            if (document.activeElement === props.activeElement || document.activeElement?.outerHTML.slice(1, 41) === "button class=\"vue-pincode-numbers-button") {
+            if (!props.focusRequired || document.activeElement === props.activeElement || document.activeElement?.outerHTML.slice(1, 41) === "button class=\"vue-pincode-numbers-button") {
                 if (!isNaN(pressedNumber) && pressedNumber >= 0 && pressedNumber <= 9) {
                     activeButton.value = pressedNumber
                     clickPinButton(pressedNumber)
