@@ -42,6 +42,7 @@
             <button
                 @click="clickPinButton(0)"
                 :disabled="buttonDisabled"
+                class="vue-pincode-numbers-button shadow"
                 :class="{ 'is-pressed': activeButton === 0 }"
             >
                 <span>0</span>

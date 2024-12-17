@@ -9,7 +9,7 @@ Written entirely on Vue 3 Composition API with Typescript and Vite. Compatible o
 - Minimal style
 - Customizable
 - Smooth animations
-- Optional keyboard input
+- Optional keyboard input (with backspace and delete keys support)
 
 You can check a [DEMO HERE](https://j2only.github.io/pincode/)
 
